@@ -1,8 +1,38 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
+import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../utils/searchSlice";
 
 const Head = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggList,setSuggList]=useState([])
+  const [showSugg,setShowSugg]=useState(false)
+  const getSearchSuggestions= async()=>{
+    const data=await fetch(YOUTUBE_SEARCH_API+searchQuery);
+    const json=await data.json();
+    setSuggList(json[1])
+    dispatch(cacheResults({
+        [searchQuery]:json[1],
+    }))
+  }
+  const searchCache=useSelector(store=>store.search)
+  console.log(searchCache)
+  useEffect(() => {
+    const timer=setTimeout(()=>{
+        if(searchCache[searchQuery])
+        {
+            setSuggList(searchCache[searchQuery])
+        }
+        else{
+            getSearchSuggestions();
+        }
+        
+    },200)
+    return()=>{
+        clearTimeout(timer);
+    }
+  }, [searchQuery]);
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -24,19 +54,32 @@ const Head = () => {
           />
         </a>
       </div>
-      <div className="flex col-span-10 items-center justify-center">
+      <div className=" col-span-10 px-10">
+        <div>
         <input
           className="h-8 w-1/2 border border-gray-400 rounded-l-full p-2"
           type="text"
           placeholder="Search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onFocus={()=>setShowSugg(true)}
+          onBlur={()=>setShowSugg(false)}
         />
-        <button className=" border border-gray-400 h-8 w-8 rounded-r-full overflow-hidden">
-          <img
-            className=""
-            src="https://t3.ftcdn.net/jpg/04/99/34/78/360_F_499347841_IXq0bLOPN4MkKAa71nP3WMQq6LVlgeTO.jpg"
-            alt="search"
-          />
+        <button className=" border border-gray-400 h-8 w-16 rounded-r-full overflow-hidden ">
+          Search
         </button>
+        </div>
+        {
+            showSugg && <div className="fixed bg-white py-2 px-2 w-[34rem] shadow-lg rounded-lg border-gray-100">
+            <ul>
+                {
+                    suggList.map((item,index)=>{
+                        return <li key={index} className="py-2 px-3 shadow-sm hover:bg-gray-100">{item}</li>
+                    })
+                }
+            </ul>
+        </div>
+        }
       </div>
       <div className="col-span-1 flex items-center">
         <img
