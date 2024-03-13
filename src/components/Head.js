@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
+import { useNavigate } from "react-router-dom";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggList,setSuggList]=useState([])
   const [showSugg,setShowSugg]=useState(false)
+  const navigate=useNavigate();
   const getSearchSuggestions= async()=>{
     const data=await fetch(YOUTUBE_SEARCH_API+searchQuery);
     const json=await data.json();
@@ -17,7 +19,7 @@ const Head = () => {
     }))
   }
   const searchCache=useSelector(store=>store.search)
-  console.log(searchCache)
+//   console.log(searchCache)
   useEffect(() => {
     const timer=setTimeout(()=>{
         if(searchCache[searchQuery])
@@ -37,6 +39,12 @@ const Head = () => {
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
+  const handleSearchResult=()=>{
+    // e.preventDefault();
+    setShowSugg(false)
+    console.log("clicked",searchQuery)
+    navigate("/search?q="+searchQuery);
+  }
   return (
     <div className="grid grid-flow-col p-2 m-2 shadow-lg">
       <div className="flex items-center col-span-1">
@@ -65,7 +73,7 @@ const Head = () => {
           onFocus={()=>setShowSugg(true)}
           onBlur={()=>setShowSugg(false)}
         />
-        <button className=" border border-gray-400 h-8 w-16 rounded-r-full overflow-hidden ">
+        <button className=" border border-gray-400 h-8 w-16 rounded-r-full overflow-hidden " onClick={handleSearchResult}>
           Search
         </button>
         </div>
