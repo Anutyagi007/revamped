@@ -22,7 +22,7 @@ const SearchResult =  () => {
     // }
   return (
     <div>
-        <div className="flex flex-wrap justify-between">
+        <div className="flex flex-wrap justify-between w-full">
 			{
                 searchedVideos.map((video) => {
                     if (video.id.kind === "youtube#video") {

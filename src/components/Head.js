@@ -3,48 +3,47 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [suggList,setSuggList]=useState([])
-  const [showSugg,setShowSugg]=useState(false)
-  const navigate=useNavigate();
-  const getSearchSuggestions= async()=>{
-    const data=await fetch(YOUTUBE_SEARCH_API+searchQuery);
-    const json=await data.json();
-    setSuggList(json[1])
-    dispatch(cacheResults({
-        [searchQuery]:json[1],
-    }))
-  }
-  const searchCache=useSelector(store=>store.search)
-//   console.log(searchCache)
+  const [suggList, setSuggList] = useState([]);
+  const [showSugg, setShowSugg] = useState(false);
+  const navigate = useNavigate();
+  const getSearchSuggestions = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_API + searchQuery);
+    const json = await data.json();
+    setSuggList(json[1]);
+    dispatch(
+      cacheResults({
+        [searchQuery]: json[1],
+      })
+    );
+  };
+  const searchCache = useSelector((store) => store.search);
+  //   console.log(searchCache)
   useEffect(() => {
-    const timer=setTimeout(()=>{
-        if(searchCache[searchQuery])
-        {
-            setSuggList(searchCache[searchQuery])
-        }
-        else{
-            getSearchSuggestions();
-        }
-        
-    },200)
-    return()=>{
-        clearTimeout(timer);
-    }
+    const timer = setTimeout(() => {
+      if (searchCache[searchQuery]) {
+        setSuggList(searchCache[searchQuery]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [searchQuery]);
   const dispatch = useDispatch();
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
-  const handleSearchResult=()=>{
+  const handleSearchResult = () => {
     // e.preventDefault();
-    setShowSugg(false)
-    console.log("clicked",searchQuery)
-    navigate("/search?q="+searchQuery);
-  }
+    setShowSugg(false);
+    console.log("clicked", searchQuery);
+    navigate("/search?q=" + searchQuery);
+  };
   return (
     <div className="grid grid-flow-col p-2 m-2 shadow-lg">
       <div className="flex items-center col-span-1">
@@ -64,30 +63,47 @@ const Head = () => {
       </div>
       <div className=" col-span-10 px-10">
         <div>
-        <input
-          className="h-8 w-1/2 border border-gray-400 rounded-l-full p-2"
-          type="text"
-          placeholder="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onFocus={()=>setShowSugg(true)}
-          onBlur={()=>setShowSugg(false)}
-        />
-        <button className=" border border-gray-400 h-8 w-16 rounded-r-full overflow-hidden " onClick={handleSearchResult}>
-          Search
-        </button>
+          <input
+            className="h-8 w-1/2 border border-gray-400 rounded-l-full p-2"
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setShowSugg(true)}
+            onBlur={() => setShowSugg(false)}
+          />
+          <button
+            className=" border border-gray-400 h-8 w-16 rounded-r-full overflow-hidden "
+            onClick={handleSearchResult}
+          >
+            Search
+          </button>
         </div>
-        {
-            showSugg && <div className="fixed bg-white py-2 px-2 w-[34rem] shadow-lg rounded-lg border-gray-100">
+        {showSugg && (
+          <div className="fixed bg-white py-2 px-2 w-[34rem] shadow-lg rounded-lg border-gray-100">
             <ul>
-                {
-                    suggList.map((item,index)=>{
-                        return <li key={index} className="py-2 px-3 shadow-sm hover:bg-gray-100">{item}</li>
-                    })
-                }
+            {suggList && (
+						<div className="fixed bg-white py-2 px-2 w-1/3 shadow-lg rounded-xl border border-gray-100">
+							<ul>
+								{suggList.map((suggestion, index) => (
+									<Link to={"/search?q=" + suggestion} key={index}>
+										<li
+											className="py-2 px-3 rounded-full shadow-sm hover:bg-gray-200 cursor-default"
+											onMouseDown={(e) => {
+												// console.log(suggestion + " clicked");
+												setSearchQuery(suggestion);
+											}}
+										>
+										  {suggestion}
+										</li>{" "}
+									</Link>
+								))}
+							</ul>
+						</div>
+					)}
             </ul>
-        </div>
-        }
+          </div>
+        )}
       </div>
       <div className="col-span-1 flex items-center">
         <img
