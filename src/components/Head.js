@@ -4,6 +4,12 @@ import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
 import { useNavigate, Link, NavLink } from "react-router-dom";
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import PodcastsIcon from '@mui/icons-material/Podcasts';
+import MicIcon from '@mui/icons-material/Mic';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Head = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -45,14 +51,9 @@ const Head = () => {
     navigate("/search?q=" + searchQuery);
   };
   return (
-    <div className="grid grid-flow-col p-2 m-2 shadow-lg">
-      <div className="flex items-center col-span-1">
-        <img
-          onClick={() => toggleMenuHandler()}
-          className="h-8 cursor-pointer"
-          src="https://cdn.iconscout.com/icon/free/png-256/free-hamburger-menu-462145.png?f=webp"
-          alt="menu"
-        />
+    <div className="flex justify-between p-2 m-2 shadow-lg">
+      <div className="flex items-center ">
+        <MenuIcon fontSize="large" onClick={() => toggleMenuHandler()} className="bg-gray-100 cursor-pointer m-2 hover:bg-gray-200 rounded-full p-1"/>
         <a href="/">
           <img
             className="h-12"
@@ -61,8 +62,8 @@ const Head = () => {
           />
         </a>
       </div>
-      <div className=" col-span-10 px-10">
-        <div>
+      <div className="w-3/4 ml-10 ">
+        <div className="flex items-center text-center">
           <input
             className="h-8 w-1/2 border border-gray-400 rounded-l-full p-2"
             type="text"
@@ -76,8 +77,9 @@ const Head = () => {
             className=" border border-gray-400 h-8 w-16 rounded-r-full overflow-hidden "
             onClick={handleSearchResult}
           >
-            Search
+            <SearchIcon />
           </button>
+        <MicIcon fontSize="large" className="bg-gray-100 m-2 hover:bg-gray-200 rounded-full p-1 cursor-pointer" />
         </div>
         {showSugg && (
           <div className="fixed bg-white py-2 px-2 w-[34rem] shadow-lg rounded-lg border-gray-100">
@@ -105,12 +107,10 @@ const Head = () => {
           </div>
         )}
       </div>
-      <div className="col-span-1 flex items-center">
-        <img
-          className="h-8"
-          src="https://static.vecteezy.com/system/resources/previews/005/005/788/original/user-icon-in-trendy-flat-style-isolated-on-grey-background-user-symbol-for-your-web-site-design-logo-app-ui-illustration-eps10-free-vector.jpg"
-          alt="user"
-        />
+      <div className=" flex items-center justify-evenly">
+        <PodcastsIcon fontSize="large" className="bg-gray-100 cursor-pointer m-2 hover:bg-gray-200 rounded-full p-1"/>
+        <NotificationsNoneIcon fontSize="large" className="bg-gray-100 cursor-pointer m-2 hover:bg-gray-200 rounded-full p-1"/>
+        <AccountCircleIcon fontSize="large" className="cursor-pointer"/>
       </div>
     </div>
   );

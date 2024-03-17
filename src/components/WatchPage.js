@@ -6,15 +6,15 @@ import CommentsContainer from "./CommentsContainer";
 
 const WatchPage = () => {
   const [searchParams] = useSearchParams();
-  console.log(searchParams.get("v"));
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(closeMenu());
   }, []);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col m-2">
       <div>
         <iframe
+        className=""
           width="1100"
           height="500"
           src={"https://www.youtube.com/embed/" + searchParams.get("v")}
