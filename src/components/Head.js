@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
-import { useNavigate, Link, NavLink } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -27,7 +27,6 @@ const Head = () => {
     );
   };
   const searchCache = useSelector((store) => store.search);
-  //   console.log(searchCache)
   useEffect(() => {
     const timer = setTimeout(() => {
       if (searchCache[searchQuery]) {
@@ -47,7 +46,6 @@ const Head = () => {
   const handleSearchResult = () => {
     // e.preventDefault();
     setShowSugg(false);
-    console.log("clicked", searchQuery);
     navigate("/search?q=" + searchQuery);
   };
   return (
@@ -92,7 +90,6 @@ const Head = () => {
 										<li
 											className="py-2 px-3 rounded-full shadow-sm hover:bg-gray-200 cursor-default"
 											onMouseDown={(e) => {
-												// console.log(suggestion + " clicked");
 												setSearchQuery(suggestion);
 											}}
 										>

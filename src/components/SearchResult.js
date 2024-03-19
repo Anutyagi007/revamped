@@ -6,11 +6,9 @@ import SearchedVideoCard from './SearchedVideoCard';
 const SearchResult =  () => {
     const [queryParams]=useSearchParams();
     const [searchedVideos,setSearchedVideos]=useState([])
-    console.log(queryParams.get("q"))
     const getSearchResults= async()=>{
         const data=await fetch(YOUTUBE_SEARCH_RESULTS_API+ queryParams.get("q"))
         const json=await data.json();
-        console.log(json,"api")
         setSearchedVideos(json.items)
     }
     useEffect(()=>{
