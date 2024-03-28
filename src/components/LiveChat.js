@@ -39,9 +39,9 @@ const LiveChat = () => {
           })}
         </div>
       </div>
-      <form className="w-full p-2 ml-2 border border-black" onSubmit={handleSubmit}>
+      <form className="w-full p-2 ml-2 border border-black rounded-lg" onSubmit={handleSubmit}>
           <input className="w-72" type="text" placeholder="Type here ...." value={liveMessage} onChange={(e)=>{setLiveMessage(e.target.value)}}/>
-          <button className="px-2 mx-2 bg-black text-white">chat</button>
+          <button className="rounded-lg h-8 px-2 mx-2 bg-black text-white">chat</button>
       </form>
     </>
   );
