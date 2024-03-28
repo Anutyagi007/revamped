@@ -12,7 +12,7 @@ const getVideoByKeyword= async ()=>{
     const data= await fetch(YOUTUBE_SEARCH_RESULTS_API+name)
     const json= await data.json()
     setGetVideos(json.items)
-    console.log(json.items,"searched Videos")
+    // console.log(json.items,"searched Videos")
 }
 const handleClick=()=>{
   navigate("/search?q="+name);
