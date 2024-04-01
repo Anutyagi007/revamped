@@ -60,10 +60,10 @@ const Head = () => {
           />
         </a>
       </div>
-      <div className="w-3/4 ml-10 ">
-        <div className="flex items-center text-center">
+      <div className="w-1/2 ml-10 flex items-center ">
+        <div className="flex items-center justify-center text-center w-full">
           <input
-            className="h-8 w-1/2 border border-gray-400 rounded-l-full p-2"
+            className="h-8 w-full border border-gray-400 rounded-l-full p-2"
             type="text"
             placeholder="Search"
             value={searchQuery}
@@ -80,7 +80,7 @@ const Head = () => {
         <MicIcon fontSize="large" className="bg-gray-100 m-2 hover:bg-gray-200 rounded-full p-1 cursor-pointer" />
         </div>
         {showSugg && (
-          <div className="fixed bg-white py-2 px-2 w-[34rem] shadow-lg rounded-lg border-gray-100">
+          <div className="fixed bg-white top-16 py-2 px-2 w-[329px] shadow-lg rounded-lg border-gray-100">
             <ul>
             {suggList && (
 						<div className="fixed bg-white py-2 px-2 w-1/3 shadow-lg rounded-xl border border-gray-100">

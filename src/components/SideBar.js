@@ -23,7 +23,7 @@ const SideBar = () => {
   if (!isMenuOpen) return null;
   //p-5 flex flex-col w-80 col-span-2
   return (
-    <div className="p-5 flex flex-col w-48 sticky">
+    <div className="p-5 flex flex-col w-48 sticky h-[90vh] top-0">
       <ul>
         <li className="cursor-pointer hover:bg-gray-200 rounded-lg">
           <Link to={"/"}>
